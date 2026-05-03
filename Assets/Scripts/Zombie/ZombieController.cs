@@ -6,11 +6,20 @@ public class ZombieController : MonoBehaviour
 public AIPath path;
 public SpriteRenderer renderer;
 
+[SerializeField] private Patrol ps;
+[SerializeField] private AIDestinationSetter ds;
+[SerializeField] private GameObject target;
+
+[SerializeField] private float myDistance = 3f;
+
 void Update()  {
-    if (path.desiredVelocity.x >= 0.01f)  {
+    if (path.desiredVelocity.x >= 0.01f)  
+    {
+        renderer.flipX = false;
+    }
+     else if (path.desiredVelocity.x <= 0.01f) 
+    {
         renderer.flipX = true;
-    } else if (path.desiredVelocity.x <= 0.01f)  {
-    renderer.flipX = false;
     }
 }
 
@@ -28,15 +37,17 @@ void Update()  {
 
     void FixedUpdate()
     {
-        // if (target == null) return;
+        float distance = Vector2.Distance(transform.position, target.transform.position);
 
-        // Vector2 direction = ((Vector2)target.position - rb.position).normalized;
-        // float distance = Vector2.Distance(rb.position, target.position);
-
-        // // рухаємося тільки якщо не на місці
-        // if (distance > 0.05f)
-        // {
-        //     rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
-        // }
+        if(distance < myDistance)
+        {
+            ps.enabled = false;
+            ds.enabled = true;
+        }
+        else
+        {
+            ds.enabled = false;
+            ps.enabled = true;
+        }
     }
 }
