@@ -64,6 +64,12 @@ public class CarController : MonoBehaviour
         {
             return;
         }
+        
+        if (rb.velocity.sqrMagnitude > maxSpeedForward * maxSpeedForward && accelerationInput > 0)
+        {
+            return;
+        }    
+
 
 
         if (accelerationInput == 0)
